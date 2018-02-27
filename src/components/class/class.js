@@ -27,13 +27,12 @@ class Class extends Component {
         }
     }
 
-    // handleChange = (event, index, value) => this.setState({value});
     createClass() {
         var db = firebase.firestore();
         var obj = this.state.createClass;
          this.id = localStorage.getItem('Id');
          obj.teacherID = this.id;
-        db.collection('Classes').doc(this.id).set(obj);
+        db.collection('Classes').add(obj);
         console.log(this.state.createClass);
     }
 
@@ -69,7 +68,9 @@ class Class extends Component {
     //     this.setState({createClass: createClass});
     //     console.log(this.state.createClass);
     // }
-
+    classes(){
+        this.props.history.push('/classes');
+    }
 
     render() {
         return (
@@ -102,7 +103,8 @@ class Class extends Component {
                     rows={2}
                     value={this.state.createClass.description}
                     onChange={this.textChange.bind(this, 'description')}/><br/>
-                <RaisedButton label='CreateClass' primary={true} onClick={this.createClass.bind(this)}/>
+                <RaisedButton label='CreateClass' primary={true} onClick={this.createClass.bind(this)}/><br/>
+                <RaisedButton label='Classes' primary={true} onClick={this.classes.bind(this)}/>
             </div>
         )
     }

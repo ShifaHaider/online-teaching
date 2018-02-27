@@ -69,10 +69,9 @@ class Login extends Component {
                     value={this.state.loginData.logPassword}
                     onChange={this.handleChangeLog.bind(this, 'logPassword')}
                 /><br/>
-               <RaisedButton label='Login' secondary={true} onClick={this.loginAccount.bind(this)}/><br/><br/>
+                <RaisedButton label='Login' secondary={true} onClick={this.loginAccount.bind(this)}/><br/><br/>
 
                 <RaisedButton label='Register' primary={true} onClick={this.Register.bind(this)}/>
-
 
 
                 <Dialog

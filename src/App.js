@@ -8,6 +8,7 @@ import {Router, Route, Switch, Link} from 'react-router-dom'
 import firebase from 'firebase'
 import firestore from 'firebase/firestore'
 import Class from "./components/class/class";
+import Classes from "./components/classes/classes";
 
 
 // Initialize Firebase
@@ -35,6 +36,7 @@ class App extends Component {
                             <Route exact path={'/login'} component={Login}/>
                             <Route exact path={'/dashboard'} component={Dashboard}/>
                             <Route exact path={'/class'} component={Class}/>
+                            <Route exact path={'/classes'} component={Classes}/>
                         </Switch>
                     </div>
                 </Router>
