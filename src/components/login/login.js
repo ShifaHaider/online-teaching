@@ -46,10 +46,6 @@ class Login extends Component {
         console.log(this.props);
         this.props.history.push('/register')
     }
-    d() {
-        console.log(this.props);
-        this.props.history.push('/dashboard')
-    }
 
     close() {
         this.setState({isAlertOpen: false});
@@ -76,7 +72,7 @@ class Login extends Component {
                <RaisedButton label='Login' secondary={true} onClick={this.loginAccount.bind(this)}/><br/><br/>
 
                 <RaisedButton label='Register' primary={true} onClick={this.Register.bind(this)}/>
-                <RaisedButton label='Register' primary={true} onClick={this.d.bind(this)}/>
+
 
 
                 <Dialog

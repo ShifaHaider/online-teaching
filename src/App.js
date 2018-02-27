@@ -8,16 +8,18 @@ import {Router, Route, Switch, Link} from 'react-router-dom'
 import firebase from 'firebase'
 import firestore from 'firebase/firestore'
 import Class from "./components/class/class";
+
+
+// Initialize Firebase
 var config = {
-    apiKey: "AIzaSyAUItwpA9AmbqxtBKNcJSuRvXCbOMuSQkQ",
-    authDomain: "react-smart-todo.firebaseapp.com",
-    databaseURL: "https://react-smart-todo.firebaseio.com",
-    projectId: "react-smart-todo",
-    storageBucket: "react-smart-todo.appspot.com",
-    messagingSenderId: "659919751663"
+    apiKey: "AIzaSyAkQ7216O_wLDTHz0Rp5dq0a67oCKQsyc0",
+    authDomain: "create-class-app.firebaseapp.com",
+    databaseURL: "https://create-class-app.firebaseio.com",
+    projectId: "create-class-app",
+    storageBucket: "create-class-app.appspot.com",
+    messagingSenderId: "762485823633"
 };
 firebase.initializeApp(config);
-
 const history = createBrowserHistory();
 
 

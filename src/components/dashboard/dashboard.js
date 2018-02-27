@@ -10,6 +10,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 class Dashboard extends Component {
+    db = firebase.firestore();
+    id = localStorage.getItem('Id');
+    ref = this.db.collection('Users').doc(this.id);
     constructor(props) {
         super(props);
         this.state = {
@@ -19,15 +22,16 @@ class Dashboard extends Component {
     }
 
     resultForLogin() {
+        console.log(this.id);
         this.ref.get().then((userData) => {
+            console.log(userData.data());
             var data = userData.data();
+            console.log(data);
             this.setState({userData: data})
         });
     }
 
-    db = firebase.firestore();
-    id = localStorage.getItem('Id');
-    ref = this.db.collection('Users').doc(this.id);
+
 
     createClass(){
         this.props.history.push('/class');
