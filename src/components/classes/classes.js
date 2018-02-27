@@ -32,7 +32,9 @@ class Classes extends Component{
         var classesData =[];
         this.classesRef.get().then((classes)=>{
             classes.forEach((classData)=>{
-             classesData.push(classData.data()) ;
+              var obj=  classData.data();
+              obj.id = classData.id;
+             classesData.push(obj) ;
                 this.setState({classes: classesData});
             })
             // var classData= classes.data();
@@ -44,13 +46,18 @@ class Classes extends Component{
     render(){
         return(
             <Table selectable={false}>
-                <TableBody>
-                    <TableRow>
-                        <TableRowColumn>sdfs</TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>Employed</TableRowColumn>
-                        </TableRow>
+                <TableBody>{this.state.classes.map((data)=>{
+                    return(
 
+                    <TableRow key={data.id}>
+                        <TableRowColumn>{data.title}</TableRowColumn>
+                        <TableRowColumn>{data.teacherID}</TableRowColumn>
+                        <TableRowColumn>Employed</TableRowColumn>
+                     </TableRow>
+                )
+
+                })
+            }
                 </TableBody>
             </Table>
 
