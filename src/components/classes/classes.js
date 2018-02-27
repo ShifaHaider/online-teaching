@@ -19,7 +19,7 @@ const styles = {
 class Classes extends Component{
     db = firebase.firestore();
     id = localStorage.getItem('Id');
-    ref = this.db.collection('Classes').doc(this.id);
+    classesRef = this.db.collection('Classes');
     constructor(props){
         super(props);
         this.state={
@@ -29,45 +29,31 @@ class Classes extends Component{
     }
 
     classes(){
-        this.ref.get().then((classes)=>{
-            var classData= classes.data();
-            this.setState({classes: classData});
+        var classesData =[];
+        this.classesRef.get().then((classes)=>{
+            classes.forEach((classData)=>{
+             classesData.push(classData.data()) ;
+                this.setState({classes: classesData});
+            })
+            // var classData= classes.data();
+
             console.log(this.state.classes);
+
         })
     }
     render(){
         return(
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHeaderColumn>ID</TableHeaderColumn>
-                        <TableHeaderColumn>Name</TableHeaderColumn>
-                        <TableHeaderColumn>Status</TableHeaderColumn>
-                    </TableRow>
-                </TableHeader>
+            <Table selectable={false}>
                 <TableBody>
-                    <TableRow selected={true}>
-                        <TableRowColumn>1</TableRowColumn>
+                    <TableRow>
+                        <TableRowColumn>sdfs</TableRowColumn>
                         <TableRowColumn>John Smith</TableRowColumn>
                         <TableRowColumn>Employed</TableRowColumn>
-                    </TableRow>
-                    <TableRow selected={true}>
-                        <TableRowColumn>2</TableRowColumn>
-                        <TableRowColumn>Randal White</TableRowColumn>
-                        <TableRowColumn>Unemployed</TableRowColumn>
-                    </TableRow>
-                    <TableRow selected={true}>
-                        <TableRowColumn>3</TableRowColumn>
-                        <TableRowColumn>Stephanie Sanders</TableRowColumn>
-                        <TableRowColumn>Employed</TableRowColumn>
-                    </TableRow>
-                    <TableRow selected={true}>
-                        <TableRowColumn>4</TableRowColumn>
-                        <TableRowColumn>Steve Brown</TableRowColumn>
-                        <TableRowColumn>Employed</TableRowColumn>
-                    </TableRow>
+                        </TableRow>
+
                 </TableBody>
             </Table>
+
         )
     }
 }
