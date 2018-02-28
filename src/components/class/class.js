@@ -40,7 +40,6 @@ class Class extends Component {
         var createClass = this.state.createClass;
         createClass[p] = value;
         this.setState({createClass: createClass});
-
     }
 
     selectChange(p, event, index, value) {
@@ -59,15 +58,6 @@ class Class extends Component {
 
     }
 
-    // textChange(p, e) {
-    //     this.id = localStorage.getItem('Id');
-    //     var createClass = this.state.createClass;
-    //     createClass.teacherID = this.id;
-    //     createClass.creatdAt = Date.now();
-    //     createClass[p] = e.target.value;
-    //     this.setState({createClass: createClass});
-    //     console.log(this.state.createClass);
-    // }
     classes(){
         this.props.history.push('/classes');
     }

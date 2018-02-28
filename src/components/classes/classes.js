@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import firebase from 'firebase'
 import firestore from 'firebase/firestore'
 
-import {Table, TableHeader,TableBody, TableRowColumn, TableHeaderColumn, TableRow} from 'material-ui/Table';
+import {Table, TableHeader, TableBody, TableRowColumn, TableHeaderColumn, TableRow} from 'material-ui/Table';
 
 const styles = {
     root: {
@@ -16,52 +16,62 @@ const styles = {
         overflowY: 'auto',
     },
 };
-class Classes extends Component{
+
+class Classes extends Component {
     db = firebase.firestore();
     id = localStorage.getItem('Id');
     classesRef = this.db.collection('Classes');
-    constructor(props){
+
+    constructor(props) {
         super(props);
-        this.state={
-            classes:[]
+        this.state = {
+            classes: []
         };
         this.classes();
     }
 
-    classes(){
-        var classesData =[];
-        this.classesRef.get().then((classes)=>{
-            classes.forEach((classData)=>{
-              var obj=  classData.data();
-              obj.id = classData.id;
-             classesData.push(obj) ;
+    classes() {
+        var classesData = [];
+        this.classesRef.get().then((classes) => {
+            classes.forEach((classData) => {
+                var obj = classData.data();
+                obj.id = classData.id;
+                classesData.push(obj);
                 this.setState({classes: classesData});
-            })
-            // var classData= classes.data();
-
+            });
             console.log(this.state.classes);
-
         })
     }
-    render(){
-        return(
+
+    classData(d){
+        console.log(d);
+        this.props.history.push('/view-class/'+ d.id);
+    }
+
+    render() {
+        return (
             <Table selectable={false}>
-                <TableBody>{this.state.classes.map((data)=>{
-                    return(
+                <TableBody>{this.state.classes.map((data) => {
+                    return (
+                        <TableRow key={data.id}>
+                            { console.log(data)}
+                            <TableRowColumn><button onClick={this.classData.bind(this,data)}>ViewClass</button></TableRowColumn>
+                            <TableRowColumn>{data.subject}</TableRowColumn>
+                            <TableRowColumn>{new Date(data.classStartTime).toTimeString()}</TableRowColumn>
+                            <TableRowColumn>{new Date(data.classEndTime).toTimeString()}</TableRowColumn>
+                            <TableRowColumn>{data.description}</TableRowColumn>
+                            <TableRowColumn>{data.creatdAt}</TableRowColumn>
+                            <TableRowColumn>{data.teacherID}</TableRowColumn>
 
-                    <TableRow key={data.id}>
-                        <TableRowColumn>{data.title}</TableRowColumn>
-                        <TableRowColumn>{data.teacherID}</TableRowColumn>
-                        <TableRowColumn>Employed</TableRowColumn>
-                     </TableRow>
-                )
+                        </TableRow>
 
+                    )
                 })
-            }
+                }
                 </TableBody>
             </Table>
-
         )
     }
 }
+
 export default Classes;
