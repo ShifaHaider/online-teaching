@@ -10,8 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-
-
+import {GridList, GridTile} from 'material-ui/GridList';
 
 class ClassInformation extends Component {
     db = firebase.firestore();
@@ -20,24 +19,45 @@ class ClassInformation extends Component {
         this.classId = props.match.params.id;
         this.state = {
             class: {},
-            lectures:{
-            titleChap: '',
-            descriptionSub: '',
-            videoUrl: ''},
+            lectures: {
+                titleChap: '',
+                descriptionSub: '',
+                videoUrl: ''
+            },
+            lecture: [],
+            root: {
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around',
+            },
             open: false
         };
         this.ref = this.db.collection('Classes').doc(this.classId);
-       this.classRef = this.ref.collection('Lectures');
+        this.classRef = this.ref.collection('Lectures');
         this.classData();
-
+        this.loadLectures();
     }
+
     classData() {
-         this.ref.get().then((doc) => {
+        this.ref.get().then((doc) => {
             var docData = doc.data();
             this.setState({class: docData});
         })
-
     }
+
+    loadLectures() {
+        var lecture = [];
+        this.classRef.get().then((lecturesCollection) => {
+            lecturesCollection.forEach((lectures) => {
+                var lecData = lectures.data();
+                lecData.id = lectures.id;
+                lecture.push(lecData);
+                this.setState({lecture: lecture})
+            })
+            console.log(this.state.lecture);
+        })
+    }
+
     handleOpen = () => {
         this.setState({open: true});
     };
@@ -53,10 +73,11 @@ class ClassInformation extends Component {
         console.log(this.state.lectures);
     }
 
-    addLectures(){
-        var  lectures = this.state.lectures;
+    addLectures() {
+        var lectures = this.state.lectures;
         this.classRef.add(lectures);
     }
+
     render() {
         const actions = [
             <FlatButton
@@ -72,28 +93,39 @@ class ClassInformation extends Component {
 
         return (
             <div>
-            <AppBar title={'View class ' + this.state.class.title}/>
+                <AppBar title={'View class ' + this.state.class.title}/>
                 <Card>
                     <CardTitle title={this.state.class.title}/>
                     <CardText>{this.state.class.description}</CardText>
                     <CardText>{new Date(this.state.class.classStartTime).toTimeString()}</CardText>
                     <CardText>{new Date(this.state.class.classEndTime).toTimeString()}</CardText>
                     <CardText>{this.state.class.creatdAt}</CardText><br/>
-                    <div>
-                    <RaisedButton label='Start Class..' primary={true} onClick={this.handleOpen} />
-                        <Dialog
-                            actions={actions}
-                            modal={false}
-                            open={this.state.open}
-                            onRequestClose={this.handleClose}>
-                            <TextField hintText="Title" floatingLabelText="Title"
-                            value={this.state.lectures.titleChap} onChange={this.textChange.bind(this, 'titleChap')}/><br/>
-                            <TextField hintText="Description" floatingLabelText="Description"
-                            value={this.state.lectures.descriptionSub} onChange={this.textChange.bind(this, 'descriptionSub')}/><br/>
-                            <TextField hintText="Video URL" floatingLabelText="Video URL"
-                            value={this.state.lectures.videoUrl} onChange={this.textChange.bind(this, 'videoUrl')}/>
-                        </Dialog>
-                    </div>
+                    <RaisedButton label='Start Class..' primary={true} onClick={this.handleOpen}/>
+                    <Dialog
+                        actions={actions}
+                        modal={false}
+                        open={this.state.open}
+                        onRequestClose={this.handleClose}>
+                        <TextField hintText="Title" floatingLabelText="Title"
+                                   value={this.state.lectures.titleChap}
+                                   onChange={this.textChange.bind(this, 'titleChap')}/><br/>
+                        <TextField hintText="Description" floatingLabelText="Description"
+                                   value={this.state.lectures.descriptionSub}
+                                   onChange={this.textChange.bind(this, 'descriptionSub')}/><br/>
+                        <TextField hintText="Video URL" floatingLabelText="Video URL"
+                                   value={this.state.lectures.videoUrl}
+                                   onChange={this.textChange.bind(this, 'videoUrl')}/>
+                    </Dialog>
+                    <GridList cellHeight={180}>
+                        {this.state.lecture.map((lectData) => (
+                            <GridTile key={lectData.teacherID}>
+
+
+                            </GridTile>
+
+                        ))}
+                    </GridList>
+
                 </Card>
             </div>
         )
