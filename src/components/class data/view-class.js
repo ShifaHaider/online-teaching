@@ -11,9 +11,13 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border'
+
 
 class ClassInformation extends Component {
     db = firebase.firestore();
+
     constructor(props) {
         super(props);
         this.classId = props.match.params.id;
@@ -29,6 +33,11 @@ class ClassInformation extends Component {
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'space-around',
+            },
+            gridList: {
+                width: 500,
+                height: 450,
+                overflowY: 'auto',
             },
             open: false
         };
@@ -53,8 +62,7 @@ class ClassInformation extends Component {
                 lecData.id = lectures.id;
                 lecture.push(lecData);
                 this.setState({lecture: lecture})
-            })
-            console.log(this.state.lecture);
+            });
         })
     }
 
@@ -70,12 +78,17 @@ class ClassInformation extends Component {
         var lectures = this.state.lectures;
         lectures[p] = e.target.value;
         this.setState({lectures: lectures});
-        console.log(this.state.lectures);
     }
 
     addLectures() {
         var lectures = this.state.lectures;
         this.classRef.add(lectures);
+        this.handleClose();
+    }
+
+    changePage(id) {
+        this.props.history.push('/class-lecture/' + this.classId + '/' + id.id);
+        // + classId + '/' + id.id
     }
 
     render() {
@@ -116,16 +129,19 @@ class ClassInformation extends Component {
                                    value={this.state.lectures.videoUrl}
                                    onChange={this.textChange.bind(this, 'videoUrl')}/>
                     </Dialog>
-                    <GridList cellHeight={180}>
-                        {this.state.lecture.map((lectData) => (
-                            <GridTile key={lectData.teacherID}>
-
-
-                            </GridTile>
-
-                        ))}
+                    <GridList cellHeight={100} style={this.state.gridList}>
+                        {this.state.lecture.map((lectData) => {
+                            return (
+                                <GridTile key={lectData.id}
+                                          actionIcon={<IconButton><StarBorder color="white"/></IconButton>}>
+                                    <RaisedButton label='Start Class' secondary={true} onClick={this.changePage.bind(this, lectData)}/>
+                                    <p><b>Title</b> {lectData.titleChap}</p><br/>
+                                    {/*<p><b>DescriptionSubject</b> {lectData.descriptionSub}</p><br/>*/}
+                                    {/*<p><b>VideoURL</b> {lectData.videoUrl}</p>*/}
+                                </GridTile>
+                            )
+                        })}
                     </GridList>
-
                 </Card>
             </div>
         )
@@ -133,3 +149,5 @@ class ClassInformation extends Component {
 }
 
 export default ClassInformation;
+
+// var classId = localStorage.getItem('classId');

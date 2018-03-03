@@ -9,7 +9,8 @@ import firebase from 'firebase'
 import firestore from 'firebase/firestore'
 import Class from "./components/class/class";
 import Classes from "./components/classes/classes";
-import ClassInformation from "./components/class data/class-data";
+import ClassInformation from "./components/class data/view-class";
+import ClassStart from "./components/class start/lecture";
 
 
 // Initialize Firebase
@@ -39,6 +40,7 @@ class App extends Component {
                             <Route exact path={'/class'} component={Class}/>
                             <Route exact path={'/classes'} component={Classes}/>
                             <Route exact path={'/view-class/:id'} component={ClassInformation}/>
+                            <Route exact path={'/class-lecture/:classId/:id'} component={ClassStart}/>
                         </Switch>
                     </div>
                 </Router>

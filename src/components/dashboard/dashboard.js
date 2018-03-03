@@ -31,10 +31,11 @@ class Dashboard extends Component {
         });
     }
 
-
-
     createClass(){
         this.props.history.push('/class');
+    }
+    classes(){
+        this.props.history.push('/classes');
     }
     render() {
         return (
@@ -51,7 +52,8 @@ class Dashboard extends Component {
                         primaryText={this.state.userData.phone}
                         leftIcon={<ActionGrade color={pinkA200}/>}/>
                 </List>
-                <RaisedButton label='Create class' primary={true} onClick={this.createClass.bind(this)}/>
+                <RaisedButton label='Create class' primary={true} onClick={this.createClass.bind(this)}/><br/>
+                <RaisedButton label='Classes' primary={true} onClick={this.classes.bind(this)}/>
             </div>
 
         )
